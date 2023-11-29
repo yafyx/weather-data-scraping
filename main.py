@@ -67,7 +67,7 @@ with get_weather_data(
                 csv_row.append(value)
             csv_data.append(csv_row)
 
-    csv_file_path = os.path.join(os.path.dirname(__file__), "weather_data2.csv")
+    csv_file_path = os.path.join(os.path.dirname(__file__), "weather_data.csv")
     with open(csv_file_path, "w", newline="", encoding="utf-8") as file:
         writer = csv.writer(file)
         writer.writerow(list(data.keys()))
