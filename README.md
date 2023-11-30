@@ -22,10 +22,13 @@ To use the Weather Data Scraper, follow these steps:
 
 2. Copy and paste the provided script into a Python file (e.g., `weather_scraper.py`).
 
-3. Replace the URL in the `get_weather_data` function call with the desired Time and Date historical weather URL.
+3. Replace the value of the `country`, `city`, `month` and `year` variables with the desired values.
 
    ```python
-   with get_weather_data("YOUR_TIME_AND_DATE_URL_HERE") as weather:
+   country = "Your Country"
+   city = "Your City"
+   month = "November"
+   year = "2023"
    ```
 
 4. Run the script:
