@@ -14,8 +14,15 @@ def _remove(d: list) -> list:
 
 
 @contextlib.contextmanager
-def get_weather_data(url: str, by_url=True) -> typing.Generator[dict, None, None]:
-    d = soup(requests.get(url).text if by_url else url, "html.parser")
+def get_weather_data(
+    city: str, month: int, year: int
+) -> typing.Generator[dict, None, None]:
+    base_url = (
+        "https://www.timeanddate.com/weather/indonesia/{}/historic?month={:02d}&year={}"
+    )
+    url = base_url.format(city.lower(), month, year)
+
+    d = soup(requests.get(url).text, "html.parser")
     _table = d.find("table", {"id": "wt-his"})
     _select = d.find("select", {"id": "wt-his-select"})
     _options = _select.find_all("option")
@@ -41,10 +48,13 @@ def get_weather_data(url: str, by_url=True) -> typing.Generator[dict, None, None
 
 sys.stdout.reconfigure(encoding="utf-8")
 
-with get_weather_data(
-    "https://www.timeanddate.com/weather/indonesia/jakarta/historic?month=07&year=2023"
-) as weather:
-    # print(weather)
+city = "jakarta"
+month = 11
+year = 2023
+
+with get_weather_data(city, month, year) as weather:
+    print(weather)
+
     csv_data = []
     for option_text, option_data in weather.items():
         for data in option_data:
