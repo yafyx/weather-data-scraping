@@ -2,13 +2,12 @@
 
 ## Overview
 
-The Weather Data Scraper is a Python script designed to extract historical weather data from the Time and Date website for a specific location. The script utilizes web scraping techniques to gather information from the historical weather tables and organizes the data into a CSV file for further analysis.
+The Weather Data Scraper is a Python script designed to extract historical weather data from the timeanddate.com website for a specific location. The script utilizes web scraping techniques to gather information from the historical weather tables and organizes the data into a CSV file for further analysis.
 
 ## Features
 
 - Extracts historical weather data, including temperature, wind speed, humidity, barometric pressure, and visibility.
-- Supports multiple date options for historical weather data.
-- Outputs the collected data to a CSV file for easy integration into other applications or analysis tools.
+- Saves the collected data in a CSV file for easy analysis
 
 ## Usage
 
@@ -39,13 +38,6 @@ To use the Weather Data Scraper, follow these steps:
 
    The script will generate a CSV file named `weather_data.csv` in the same directory as the script.
 
-## Notes
-
-- Ensure that you comply with the terms of service of the Time and Date website or any website from which you are scraping data.
-- Web scraping may be subject to rate limitations or restrictions imposed by the website. Consider incorporating delays in your script to avoid potential issues.
-
 ## Disclaimer
 
-This script is provided for educational and informational purposes only. The user is responsible for ensuring compliance with the terms of service of any website accessed using this script. The script may need adjustments if the structure of the Time and Date website changes.
-
-Feel free to customize this README according to your preferences and add more details if needed.
+This script is for learning and fun only. Make sure you follow the rules of any website you use this script on. The script might need tweaks if the timeanddate.com website changes.
