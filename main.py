@@ -44,7 +44,21 @@ def get_weather_data(country: str, city: str, month: int, year: int) -> dict:
         option_value = option["value"]
         option_text = option.text.strip()
         select["value"] = option_value
-        # rest of the code...
+        option_text = option.text.strip()
+        select["value"] = option_value
+        table_data = [
+            [[i.text for i in c.find_all("th")], *[i.text for i in c.find_all("td")]]
+            for c in table.find_all("tr")
+        ]
+        [h1], [h2], *option_data, _ = table_data
+        h2 = remove_non_breaking_spaces(h2)
+        h2.insert(4, "Direction")
+        data[option_text] = [
+            dict(zip(h2, remove_non_breaking_spaces([a, *i])))
+            for [[a], *i] in option_data
+        ]
+
+    return data
 
 
 def clean_data(data: dict) -> list:
