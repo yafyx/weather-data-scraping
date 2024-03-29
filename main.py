@@ -101,7 +101,9 @@ def main():
 
     weather_data = get_weather_data(country, city, month, year)
     csv_data = clean_data(weather_data)
-    csv_file_path = os.path.join(os.path.dirname(__file__), "test.csv")
+    csv_file_path = os.path.join(
+        os.path.dirname(__file__), f"{country}_{city}_weather_dataset.csv"
+    )
     save_to_csv(csv_data, csv_file_path)
 
     print("Data saved successfully to", csv_file_path)
