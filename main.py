@@ -87,10 +87,14 @@ def clean_data(data: dict) -> list:
 
 
 def save_to_csv(data: list, file_path: str):
-    with open(file_path, "w", newline="", encoding="utf-8") as file:
-        writer = csv.DictWriter(file, fieldnames=data[0].keys())
-        writer.writeheader()
-        writer.writerows(data)
+    try:
+        with open(file_path, "w", newline="", encoding="utf-8") as file:
+            writer = csv.DictWriter(file, fieldnames=data[0].keys())
+            writer.writeheader()
+            writer.writerows(data)
+        print("Data saved successfully to", file_path)
+    except IOError as e:
+        print(f"Failed to save data: {e}")
 
 
 def main():
