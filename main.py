@@ -1,13 +1,15 @@
 import csv
 import os
 import re
+from datetime import datetime, timedelta
 
 import requests
 from bs4 import BeautifulSoup as soup
 
 TABLE_ID = "wt-his"
-SELECT_ID = "wt-his-select"
-BASE_URL = "https://www.timeanddate.com/weather/{}/{}/historic?month={:02d}&year={}"
+BASE_URL = (
+    "https://www.timeanddate.com/weather/{}/{}/historic?month={:02d}&year={}&hd={}"
+)
 HEADERS = {"User-Agent": "Mozilla/5.0"}
 TEMP_UNIT = "°C"
 WIND_UNIT = " km/h"
@@ -28,30 +30,38 @@ def get_soup(url: str) -> soup:
 
 
 def get_weather_data(country: str, city: str, month: int, year: int) -> dict:
-    url = BASE_URL.format(country.lower(), city.lower(), month, year)
-    try:
-        page_soup = get_soup(url)
-    except requests.HTTPError as e:
-        print(f"Failed to get data: {e}")
-        return {}
-
-    table = page_soup.find("table", {"id": TABLE_ID})
-    select = page_soup.find("select", {"id": SELECT_ID})
-    options = select.find_all("option")
-
     data = {}
-    for option in options:
-        option_value = option["value"]
-        option_text = option.text.strip()
-        select["value"] = option_value
+    for day in range(1, 32):  # Try to get data for each day in the month
+        try:
+            date = datetime(year, month, day)
+        except ValueError:
+            break  # Stop if the day is invalid (e.g., February 30)
+
+        date_str = date.strftime("%Y%m%d")
+        url = BASE_URL.format(country.lower(), city.lower(), month, year, date_str)
+
+        try:
+            page_soup = get_soup(url)
+        except requests.HTTPError as e:
+            print(f"Failed to get data for {date_str}: {e}")
+            continue
+
+        table = page_soup.find("table", {"id": TABLE_ID})
+        if not table:
+            print(f"No data available for {date_str}")
+            continue
+
         table_data = [
             [[i.text for i in c.find_all("th")], *[i for i in c.find_all("td")]]
             for c in table.find_all("tr")
         ]
+        if not table_data:
+            continue
+
         [h1], [h2], *option_data, _ = table_data
         h2 = remove_non_breaking_spaces(h2)
         h2.insert(4, "Direction")
-        data[option_text] = [
+        data[date_str] = [
             dict(
                 zip(h2, remove_non_breaking_spaces([a, *[get_td_text(td) for td in i]]))
             )
