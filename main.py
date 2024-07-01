@@ -31,11 +31,11 @@ def get_soup(url: str) -> soup:
 
 def get_weather_data(country: str, city: str, month: int, year: int) -> dict:
     data = {}
-    for day in range(1, 32):  # Try to get data for each day in the month
+    for day in range(1, 32):
         try:
             date = datetime(year, month, day)
         except ValueError:
-            break  # Stop if the day is invalid (e.g., February 30)
+            break
 
         date_str = date.strftime("%Y%m%d")
         url = BASE_URL.format(country.lower(), city.lower(), month, year, date_str)
@@ -82,7 +82,7 @@ def get_td_text(td):
 def clean_data(data: dict) -> list:
     csv_data = []
     for date, option_data in data.items():
-        day = date[-2:]  # Extract the day from the date string
+        day = date[-2:]
         for row in option_data:
             csv_row = {"Day": day}
             for key, value in row.items():
@@ -119,7 +119,7 @@ def save_to_csv(data: list, file_path: str):
 def main():
     country = "indonesia"
     city = "jakarta"
-    month = 2
+    month = 11
     year = 2023
 
     weather_data = get_weather_data(country, city, month, year)
@@ -128,8 +128,6 @@ def main():
         os.path.dirname(__file__), f"{country}_{city}_weather_dataset.csv"
     )
     save_to_csv(csv_data, csv_file_path)
-
-    print("Data saved successfully to", csv_file_path)
 
 
 if __name__ == "__main__":
