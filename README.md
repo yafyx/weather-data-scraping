@@ -1,8 +1,6 @@
-# Weather Data Scraper
+# Time and Date Weather Scraping
 
-## Overview
-
-The Weather Data Scraper is a Python script designed to extract historical weather data from the timeanddate.com website for a specific location. The script utilizes web scraping techniques to gather information from the historical weather tables and organizes the data into a CSV file for further analysis.
+Extract historical weather data from the timeanddate.com website for a specific location. The script uses web scraping techniques to collect information from historical weather tables and organizes the data into a CSV file for further analysis.
 
 ## Features
 
