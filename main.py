@@ -1,7 +1,7 @@
 import csv
 import os
 import re
-from datetime import datetime, timedelta
+from datetime import datetime
 
 import requests
 from bs4 import BeautifulSoup as soup
@@ -81,9 +81,10 @@ def get_td_text(td):
 
 def clean_data(data: dict) -> list:
     csv_data = []
-    for _, option_data in data.items():
+    for date, option_data in data.items():
+        day = date[-2:]  # Extract the day from the date string
         for row in option_data:
-            csv_row = {}
+            csv_row = {"Day": day}
             for key, value in row.items():
                 value = re.sub(r"\s+", " ", value.strip())
                 value = value.split(":")[0]
@@ -118,7 +119,7 @@ def save_to_csv(data: list, file_path: str):
 def main():
     country = "indonesia"
     city = "jakarta"
-    month = 11
+    month = 2
     year = 2023
 
     weather_data = get_weather_data(country, city, month, year)
